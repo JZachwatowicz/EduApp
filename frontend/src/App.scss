@@ -4,6 +4,7 @@ $secondary: #B3DB18;
 $trinary: #3DD250;
 //$text-primary: #FFFFFF;
 
+
 //$contrast-primary: #000000;
 //$contrast-secondary:#FDFFFC;
 //$contrast-trinary: #FFD000;
@@ -15,3 +16,26 @@ $trinary: #3DD250;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+//custom elements
+
+.btn-trinary {
+  --bs-btn-color: #000;
+  --bs-btn-bg: #3DD250;
+  --bs-btn-border-color: #3DD250;
+  --bs-btn-hover-color: #000;
+  --bs-btn-hover-bg: #5ad96a;
+  --bs-btn-hover-border-color: #50d762;
+  --bs-btn-focus-shadow-rgb: 52, 179, 68;
+  --bs-btn-active-color: #000;
+  --bs-btn-active-bg: #64db73;
+  --bs-btn-active-border-color: #50d762;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #000;
+  --bs-btn-disabled-bg: #3DD250;
+  --bs-btn-disabled-border-color: #3DD250;
+}
+
+.text-trinary {
+  --bs-text-opacity: 1;
+  color: $trinary;
+}
