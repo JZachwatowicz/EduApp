@@ -31,7 +31,7 @@ const Login = () => {
                     <input class="m-1 p-1 px-3" type="password" placeholder="Hasło" onChange={handlePassword}/>
                     <span class="d-flex justify-content-between align-items-center">
                         <button className="m-1 btn btn-trinary shadow-sm" type="submit">Zaloguj</button>
-                        <Link class="m-1 text-trinary" to="/">Zarejestruj się</Link>
+                        <Link class="m-1 text-trinary" to="/Rejestracja">Zarejestruj się</Link>
                     </span>
                 </form>
             </div>
