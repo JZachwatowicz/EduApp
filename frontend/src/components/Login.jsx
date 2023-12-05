@@ -24,14 +24,15 @@ const Login = () => {
 
     return(
         <>
-            <div class="m-5 bg-primary rounded-4 d-flex shadow-sm d-flex d-inline-flex p-3 shadow-sm">
-                <form onSubmit={handleSubmit} class="d-flex flex-column align-items-center">
+            <div class="m-5 bg-primary rounded-4 d-flex shadow-sm p-3 justify-content-center">
+                <form onSubmit={handleSubmit} class="d-flex flex-column align-items-center w-100">
                     <h3>Logowanie</h3>
-                    <input class="m-1 p-1 px-3" type="text" placeholder="Nazwa użytkownika" onChange={handleLogin}/>
-                    <input class="m-1 p-1 px-3" type="password" placeholder="Hasło" onChange={handlePassword}/>
-                    <span class="d-flex justify-content-between align-items-center">
-                        <button className="m-1 btn btn-trinary shadow-sm" type="submit">Zaloguj</button>
-                        <Link class="m-1 text-trinary" to="/Rejestracja">Zarejestruj się</Link>
+                    <input class="m-1 p-1 px-3 w-100" type="text" placeholder="Nazwa użytkownika" onChange={handleLogin}/>
+                    <input class="m-1 p-1 px-3 w-100" type="password" placeholder="Hasło" onChange={handlePassword}/>
+                    <span class="d-flex justify-content-evenly align-items-center w-100">
+                        <button className="m-1 mx-3 btn btn-trinary shadow-sm" type="submit">Zaloguj</button>
+
+                        <Link class="m-1 mx-3 text-trinary" to="/Rejestracja">Zarejestruj się</Link>
                     </span>
                 </form>
             </div>
