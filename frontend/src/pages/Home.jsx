@@ -10,6 +10,7 @@ const Home = () => {
     return(
         <div className="d-flex d-row py-4 m-5 px-5 justify-content-between">
             <div className="col-9">
+                <h2>Ogłoszenia</h2>
             <div class=" container shadow-sm border border-2 border-primary rounded-4 my-3">
                 {news.map((n,index)=>(
                     <div className="m-2 my-3">
