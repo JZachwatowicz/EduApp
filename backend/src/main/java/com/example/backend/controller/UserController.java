@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -29,23 +27,23 @@ public class UserController {
     @GetMapping("/register")
     public String registerPage(Model m) {
         m.addAttribute("user", new User());
-        return "register GetMapping";
+        return "login";
     }
 
     @PostMapping("/register")
     public String registerPagePOST(@RequestBody @Valid User user, BindingResult binding) {
         if (dao.findByLogin(user.getLogin()) != null) {
             binding.rejectValue("login", "", "Login jest już zajęty");
-            return "login zajęty";
+            return "login";
         }
 
         if (binding.hasErrors()) {
-            return "register has errors";
+            return "login";
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         dao.save(user);
-        return "register success";
+        return "login";
     }
 
     @GetMapping("/profile")

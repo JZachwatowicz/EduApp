@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Login from "../components/Login";
+import SignUpService from "../services/SignUpService"
 const SignUp = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
@@ -9,7 +10,14 @@ const SignUp = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        alert(`Submition: ${login}, ${password}`);
+        const user = {login: login, password: password, email: email}
+        console.log(user);
+
+        SignUpService.registerUser(user)
+            .then(() => {
+                console.log("User registered successfully")
+            })
+
     }
 
     const handleLogin = (event) => {
