@@ -28,7 +28,4 @@ public class Course {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id")
     private Subject subject;
-
-    /*@OneToMany(mappedBy = "tasks")
-    private List<Task> tasks;*/
 }

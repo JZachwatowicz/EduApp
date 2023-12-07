@@ -21,7 +21,4 @@ public class Subject {
 
     @Column(nullable=false)
     private String name;
-
-    /*@OneToMany(mappedBy = "courses")
-    private List<Course> courses;*/
 }

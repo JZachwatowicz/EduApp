@@ -28,9 +28,6 @@ public class Task {
     @Column(nullable=false)
     private String wrong_answers;
 
-    /*@OneToMany(mappedBy = "students_tasks")
-    private List<StudentTask> users;*/
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
     private Course course;
