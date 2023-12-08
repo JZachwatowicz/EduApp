@@ -4,12 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "./style/App.css";
+import {
+    BreadcrumbsProvider,
+    Breadcrumbs,
+    BreadcrumbsItem
+} from 'react-breadcrumbs-dynamic';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+      <BreadcrumbsProvider>
+            <App />
+      </BreadcrumbsProvider>
   </React.StrictMode>
 );
 

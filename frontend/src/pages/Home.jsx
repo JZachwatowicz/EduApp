@@ -10,7 +10,7 @@ const Home = () => {
     return(
         <div className="d-flex d-row py-4 m-5 px-5 justify-content-between">
             <div className="col-9">
-                <h2>Ogłoszenia</h2>
+                <h2 className="resize">Ogłoszenia</h2>
             <div class=" container shadow-sm border border-2 border-primary rounded-4 my-3">
                 {news.map((n,index)=>(
                     <div className="m-2 my-3">
@@ -31,9 +31,9 @@ const Home = () => {
             <div className="col-3">
                 <Login/>
                 <div className="m-5 bg-primary rounded-4 d-flex shadow-sm d-flex p-3 shadow-sm flex-column align-items-center">
-                    <h4>Popularne kursy</h4>
+                    <h4 className="resize">Popularne kursy</h4>
             {kursy.map( (kurs,index) => (
-                <button key={index} className="m-2 my-3 p-2 btn btn-trinary shadow-sm w-100" >{kurs.name}</button>
+                <button key={index} className="resize m-2 my-3 p-2 btn btn-trinary shadow-sm w-100" >{kurs.name}</button>
             ))}
             </div>
         </div>
