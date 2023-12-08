@@ -26,6 +26,7 @@ function App() {
                   <Route path={"/Kontakt"} element={<Contact />}/>
                   <Route path={"/Profil"} element={<Profile />}/>
                   <Route path={"/Rejestracja"} element={<SignUp />}/>
+                  <Route path={"/Kontact"} element={<Contact />}/>
               </Routes>
           </Router>
       </header>
