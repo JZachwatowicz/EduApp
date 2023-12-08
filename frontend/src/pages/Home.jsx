@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Login from "../components/Login";
+import {Link} from "react-router-dom";
 const Home = () => {
     const [news, setNews] = useState(
         [{title:"Neeeeeeeeeeews#1", message: "NEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEWS"},
@@ -33,7 +34,7 @@ const Home = () => {
                 <div className="m-5 bg-primary rounded-4 d-flex shadow-sm d-flex p-3 shadow-sm flex-column align-items-center">
                     <h4 className="resize">Popularne kursy</h4>
             {kursy.map( (kurs,index) => (
-                <button key={index} className="resize m-2 my-3 p-2 btn btn-trinary shadow-sm w-100" >{kurs.name}</button>
+                <Link to={'/Kurs?Id='+index} key={index} className="resize m-2 my-3 p-2 btn btn-trinary shadow-sm w-100" >{kurs.name}</Link>
             ))}
             </div>
         </div>

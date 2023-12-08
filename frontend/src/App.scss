@@ -65,6 +65,13 @@ h6, .h6 {
   --bs-btn-disabled-border-color: #3DD250;
 }
 
+.btn-transparent{
+  outline: none;
+  border: 0;
+  box-shadow: none;
+  background-color: transparent;
+}
+
 .text-trinary {
   --bs-text-opacity: 1;
   color: $trinary;

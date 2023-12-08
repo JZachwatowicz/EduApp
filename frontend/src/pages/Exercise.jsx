@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useSearchParams} from "react-router-dom";
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import {BreadcrumbsItem} from "react-breadcrumbs-dynamic";
 const Excercise = (props) => {
     const [zadania, setZadania] = useState(
         [{title:"Zadanie#1", content: "Opis Zadania 1" },
@@ -9,16 +10,27 @@ const Excercise = (props) => {
             {title:"Zadanie#4",content: "opis Zadania 4"},
             {title:"Zadanie#5", content: "Opis Zadania 5" },
             {title:"Quiz", content: "Opis quizu"}]);
+    const [chosenAnswer, setAnswer] = useState("")
     const [content , setContent] = useState(0)
 
     const [searchParams] = useSearchParams();
-    const handleSubmit = (event) => {
-        props.history.push();
+    const onchangeAnswer = (event) => {
+        setAnswer(event.target.value);
+        console.log(chosenAnswer);
+    }
+    const checkAnswer = (event) => {
+        console.log(chosenAnswer);
+         if(chosenAnswer == zadania[content].answer){
+
+             setContent(content+1)
+         }
     }
     return(
         <div class="container-fluid px-0 ">
             <div class="row m-5 justify-content-center">
-
+                <BreadcrumbsItem to='/Kursy'>Kursy</BreadcrumbsItem>
+                <BreadcrumbsItem to={"/Kurs?Id="+searchParams.get("idKursu")}>Kurs#{searchParams.get("idKursu")}</BreadcrumbsItem>
+                <BreadcrumbsItem to={"/Zadanie?idKursu="+searchParams.get("idZadanie")+"&idZadanie="+searchParams.get("idZadanie")}>Zadania</BreadcrumbsItem>
                 <div className="col-2">
                     <h2>Moduł #{searchParams.get("idKursu")}</h2>
                     Postęp
@@ -33,17 +45,17 @@ const Excercise = (props) => {
                 </div>
 
                 <div class="col-9 container shadow-sm border border-2 border-primary rounded-4 my-3">
-                    <form class="m-3 my-4 d-flex flex-column h-100">
+                    <div class="m-3 my-4 d-flex flex-column h-100">
                         <h4 className="m-2">{zadania[content].title}</h4>
                         <p className="m-2">{zadania[content].content}</p>
                         <p>Pytanie:</p>
-                        <div>
-                            <input type="radio" value="Odpowiedź#1" name="answer" /> Odpowiedź#1<br/>
-                            <input type="radio" value="Odpowiedź#2" name="answer" /> Odpowiedź#2<br/>
-                            <input type="radio" value="Odpowiedź#3" name="answer" /> Odpowiedź#3<br/>
+                        <div >
+                            <input onChange={() => {setAnswer("1")}} type="radio" value="Odpowiedź#1" name="answer" /> Poprawna odpowiedź<br/>
+                            <input onChange={() => {setAnswer("2")}} type="radio" value="Odpowiedź#2" name="answer" /> Niepoprawna odpowiedź<br/>
+                            <input onChange={() => {setAnswer("3")}} type="radio" value="Odpowiedź#3" name="answer" /> Niepoprawna odpowiedź<br/>
                         </div>
-                        <button className="m-2 my-3 p-2 btn btn-trinary shadow-sm">Sprawdź</button>
-                    </form>
+                        <button className="m-2 my-3 p-2 btn btn-trinary shadow-sm" onClick={checkAnswer}>Sprawdź</button>
+                    </div>
                 </div>
             </div>
         </div>

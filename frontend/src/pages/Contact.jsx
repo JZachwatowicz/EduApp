@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import Faq from "react-faq-component";
+import {BreadcrumbsItem} from "react-breadcrumbs-dynamic";
 const Contact = () => {
     const data = {
         title: "Najczęściej zadawane pytania",
@@ -26,6 +27,7 @@ const Contact = () => {
     return(
         <div className="container-fluid px-0">
             <div className="row mx-5 ">
+                <BreadcrumbsItem to='/Kontakt'>Kontakt</BreadcrumbsItem>
                 <span className="col-7 d-flex justify-content-center"><h2>Kontakt</h2></span>
             </div>
             <div className="row mx-5">
