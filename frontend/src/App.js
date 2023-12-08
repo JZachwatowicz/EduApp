@@ -12,6 +12,8 @@ import {
     Breadcrumbs,
     BreadcrumbsItem
 } from 'react-breadcrumbs-dynamic';
+import Course from "./pages/Course";
+import Exercise from "./pages/Exercise";
 
 
 
@@ -32,9 +34,12 @@ function App(props) {
               <Routes>
                   <Route path={"/"} element={<Home />}/>
                   <Route path={"/Kursy"} element={<Courses />}/>
+                  <Route path={"/Kurs"} element={<Course />}/>
+                  <Route path={"/Zadanie"} element={<Exercise />}/>
                   <Route path={"/Kontakt"} element={<Contact />}/>
                   <Route path={"/Profil"} element={<Profile />}/>
                   <Route path={"/Rejestracja"} element={<SignUp />}/>
+                  <Route path={"/Kontact"} element={<Contact />}/>
               </Routes>
           </Router>
       </header>
