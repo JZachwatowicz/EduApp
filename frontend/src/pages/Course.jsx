@@ -3,6 +3,7 @@ import {Link, useSearchParams} from "react-router-dom";
 import Faq from "react-faq-component";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import {BreadcrumbsItem} from "react-breadcrumbs-dynamic";
 const Course = () => {
     const percentage = 66;
     const data = {
@@ -41,6 +42,8 @@ const Course = () => {
             <div className="row m-5 justify-content-center">
                 <div className="col-4 me-3">
                     <div className="row">
+                        <BreadcrumbsItem to='/Kursy'>Kursy</BreadcrumbsItem>
+                        <BreadcrumbsItem to={"/Kurs?Id="+searchParams.get("Id")}>Kurs#{searchParams.get("Id")}</BreadcrumbsItem>
                         <div className="col my-3 h-75">
                             <CircularProgressbar value={percentage} text={`${percentage}%`} />
                         </div>
