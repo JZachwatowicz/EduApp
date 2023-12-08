@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Login from "../components/Login";
 import SignUpService from "../services/SignUpService"
+import {BreadcrumbsItem} from "react-breadcrumbs-dynamic";
 const SignUp = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
@@ -47,6 +48,7 @@ const SignUp = () => {
 
     return(
         <div class="d-flex d-row m-5 px-5 justify-content-between">
+            <BreadcrumbsItem to='/Rejestracja'>Rejestracja</BreadcrumbsItem>
             <div class="d-flex flex-column align-items-center ">
                 <h2>Rejestracja</h2>
                 <div class="container shadow-sm border border-2 border-primary rounded-4 my-3">
