@@ -7,15 +7,28 @@ import Profile from './pages/Profile';
 import SignUp from "./pages/SignUp";
 
 import {Route, Routes, BrowserRouter as Router} from "react-router-dom";
+import {
+    BreadcrumbsProvider,
+    Breadcrumbs,
+    BreadcrumbsItem
+} from 'react-breadcrumbs-dynamic';
 
 
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
+
+    <div id="App" className="App">
       <header className="App-header">
           <Router>
-              <Navigation/>
+                <Navigation/>
+                <span className="mx-5">
+                    <Breadcrumbs
+                        separator={<b> > </b>}
+                        finalItem={'b'}
+                    />
+                    {props.children}
+                </span>
               <Routes>
                   <Route path={"/"} element={<Home />}/>
                   <Route path={"/Kursy"} element={<Courses />}/>

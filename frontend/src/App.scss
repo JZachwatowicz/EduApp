@@ -2,6 +2,7 @@
 $primary: #FFB300;
 $secondary: #B3DB18;
 $trinary: #3DD250;
+//$accessible-font-size: 3rem;
 //$text-primary: #FFFFFF;
 
 
@@ -17,6 +18,35 @@ $trinary: #3DD250;
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 //custom elements
+
+html{
+  --bs-body-font-size-acc: 1rem;
+}
+
+body{
+  font-size: var(--bs-body-font-size-acc);
+}
+h1, .h1 {
+  font-size: calc(var(--bs-body-font-size-acc) + 0.375rem + 1.5vw);
+}
+h2, .h2 {
+  font-size: calc(var(--bs-body-font-size-acc) + 0.325rem + 0.9vw);
+}
+h3, .h3 {
+  font-size: calc(var(--bs-body-font-size-acc) + 0.3rem + 0.6vw);
+}
+h4, .h4 {
+  font-size: calc(var(--bs-body-font-size-acc) + 0.275rem + 0.3vw);
+}
+h5, .h5 {
+  font-size: var(--bs-body-font-size-acc) + 0.25rem;
+}
+h6, .h6 {
+  font-size: var(--bs-body-font-size-acc) ;
+}
+.btn{
+  --bs-btn-font-size: calc(var(--bs-body-font-size-acc)*1.25);
+}
 
 .btn-trinary {
   --bs-btn-color: #000;
