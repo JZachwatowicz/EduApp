@@ -8,17 +8,27 @@ const SignUp = () => {
     const [repeatPassword, setRepeatPassword] = useState("");
     const [email, setEmail] = useState("");
     const [consent, setConsent] = useState("");
+    const [error, setError] = useState(false);
+    const [errorMessage, setMessage] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const user = {login: login, password: password, email: email}
         console.log(user);
-
-        SignUpService.registerUser(user)
-            .then(() => {
-                console.log("User registered successfully")
-            })
-
+        if(user.password == repeatPassword && consent == true){
+            SignUpService.registerUser(user)
+                .then(() => {
+                    console.log("User registered successfully")
+                })
+        }
+        else if(user.password != repeatPassword){
+            setError(true);
+            setMessage("Hasło i powtórzone hasło nie zgadzają się.")
+        }
+        else if(consent != true){
+            setError(true);
+            setMessage("Musisz wyrazić zgodę na przetwarzanie danych osobowych.")
+        }
     }
 
     const handleLogin = (event) => {
@@ -41,9 +51,19 @@ const SignUp = () => {
         setRepeatPassword(value);
     }
 
-    const handleConsent = (event) => {
-        const { consent, value } = event.target;
+    const handleConsent = (e) => {
+        const  value  = e.target.checked;
+        console.log(value)
         setConsent(value);
+    }
+
+    let showAlert;
+    if (error) {
+        showAlert = <div className="alert alert-danger" role="alert">
+            {errorMessage}
+        </div>;
+    } else {
+        showAlert = <div></div>;
     }
 
     return(
@@ -54,6 +74,8 @@ const SignUp = () => {
                 <div class="container shadow-sm border border-2 border-primary rounded-4 my-3">
                     <form onSubmit={handleSubmit} class="m-3 my-4 d-flex flex-column">
                         <div class="container row">
+                            {showAlert}
+
                             <label class="col align-self-center" htmlFor="login">Nazwa użytkownika</label>
                             <input className=" bg-orange border-0 m-1 my-3 p-1 px-3 col-10 align-self-center" id="login" type="text" placeholder="Nazwa użytkownika" onChange={handleLogin}/>
                             <div class="w-100 "></div>
@@ -71,7 +93,7 @@ const SignUp = () => {
                             <p>
                                 <input
                                     type="checkbox"
-                                    onChange={handleConsent}
+                                    onChange={e => handleConsent(e)}
                                     className="mx-2"
                                 />
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id quam tellus.
