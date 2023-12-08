@@ -7,6 +7,8 @@ import Profile from './pages/Profile';
 import SignUp from "./pages/SignUp";
 
 import {Route, Routes, BrowserRouter as Router} from "react-router-dom";
+import Course from "./pages/Course";
+import Exercise from "./pages/Exercise";
 
 
 
@@ -19,6 +21,8 @@ function App() {
               <Routes>
                   <Route path={"/"} element={<Home />}/>
                   <Route path={"/Kursy"} element={<Courses />}/>
+                  <Route path={"/Kurs"} element={<Course />}/>
+                  <Route path={"/Zadanie"} element={<Exercise />}/>
                   <Route path={"/Kontakt"} element={<Contact />}/>
                   <Route path={"/Profil"} element={<Profile />}/>
                   <Route path={"/Rejestracja"} element={<SignUp />}/>

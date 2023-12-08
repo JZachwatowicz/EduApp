@@ -7,8 +7,8 @@ const Courses = (props) => {
         props.history.push();
     }
     return(
-        <div class="container-fluid px-0">
-        <div class="row m-5">
+        <div class="container-fluid px-0 ">
+        <div class="row m-5 justify-content-center">
             <div class="m-3 bg-primary rounded-4 shadow-sm col-3 p-3 shadow-sm d-flex flex-column">
                 <h3 class="align-self-center">Dostępne kursy</h3>
                 {kursy.map( (kurs,index) => (
@@ -20,7 +20,7 @@ const Courses = (props) => {
                     <h4 className="m-2">{kursy[currentDesc].name}</h4>
                     <p className="m-2">{kursy[currentDesc].disc}</p>
 
-                    <Link to={'/Kurs/'+currentDesc} className="m-2 my-3 p-3 btn btn-trinary shadow-sm bottom ">Zapisz się na kurs</Link>
+                    <Link to={'/Kurs?Id='+currentDesc} className="m-2 my-3 p-3 btn btn-trinary shadow-sm bottom ">Zapisz się na kurs</Link>
                 </form>
             </div>
         </div>
