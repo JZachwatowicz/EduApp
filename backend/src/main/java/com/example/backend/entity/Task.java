@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,12 @@ public class Task {
     private Long id;
 
     @Column(nullable=false)
+    private String title;
+
+    @Column(nullable=false)
+    private String content;
+
+    @Column(nullable=false)
     private String question;
 
     @Column(nullable=false)
@@ -28,7 +35,11 @@ public class Task {
     @Column(nullable=false)
     private String wrong_answers;
 
+    @Column(nullable=false)
+    private Boolean done;
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable=false)
     private Course course;
 }
