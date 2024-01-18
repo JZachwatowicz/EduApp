@@ -31,6 +31,8 @@ const Profile = () => {
                                 <>
                                     <p>Nazwa użytkownika: {user.login}</p>
                                     <p>Email rodzica: {user.email}</p>
+                                    <button className="m-1 mx-1 btn btn-trinary shadow-sm" onClick={()=> AuthService.deleteUser()}>Usuń konto</button>
+
                                 </>
 
                             : <span> Pobieranie danych użytkownika nie powiodło się</span>}

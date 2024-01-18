@@ -11,6 +11,7 @@ import Login from "./Login";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Navigation from "./Navigation";
 import {Breadcrumbs} from "react-breadcrumbs-dynamic";
+import PageNotFound from "../pages/404Page";
 
 const Routes = ({children}) => {
     const { token } = useAuth();
@@ -27,6 +28,10 @@ const Routes = ({children}) => {
             path: "/",
             element: <Home/>,
         },
+        {
+            path: "*",
+            element: <PageNotFound/>
+        }
 
     ];
     const routesForNotAuthenticatedOnly = [

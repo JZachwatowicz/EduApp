@@ -15,6 +15,20 @@ class AuthService {
         let token = localStorage.getItem("token")
         return axios.get(api+"user", { headers: {"Authorization" : `Bearer ${token}`} })
     }
+
+    logout() {
+        let token = localStorage.getItem("token")
+        localStorage.removeItem("token")
+        window.location.reload()
+    }
+
+    deleteUser(){
+        let token = localStorage.getItem("token")
+        localStorage.removeItem("token")
+        axios.delete(api+"user", { headers: {"Authorization" : `Bearer ${token}`} })
+        window.location.reload()
+    }
+
 }
 
 export default new AuthService()

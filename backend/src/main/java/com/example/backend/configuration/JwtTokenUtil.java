@@ -20,7 +20,7 @@ public class JwtTokenUtil {
     private Environment environment;
 //    @Value("${secret}")
 //    private String secret_key;
-    private long accessTokenValidity = 60*60*1000;
+    private long accessTokenValidity = 15*60*1000;
 
     private final JwtParser jwtParser;
 

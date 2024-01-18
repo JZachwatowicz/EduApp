@@ -52,6 +52,10 @@ const Course = () => {
                         (task) => temp.push({title: task.title, content: task.question})
                     )
                     setTasks(temp)
+                    if(temp.length === 0){
+                        setError(true);
+                        setMessage("Nie ma zadań do wyświetlenia");
+                    }
                 }).catch((err) => {
                 // console.log(err.response.data); // you can get the response like this
                 // console.log(err.response.status);
@@ -63,6 +67,15 @@ const Course = () => {
 
         dataFetch();
     }, []);
+    let showAlert;
+    if (error) {
+        showAlert = <div className="alert alert-danger" role="alert">
+            {errorMessage}
+        </div>;
+    } else {
+        showAlert = <div></div>;
+    }
+
 
     const [searchParams] = useSearchParams();
     return(
@@ -77,7 +90,7 @@ const Course = () => {
                             <CircularProgressbar value={percentage} text={`${percentage}%`} />
                         </div>
                         <div className="my-3 bg-primary rounded-4 col shadow-sm p-3 shadow-sm d-flex flex-column">
-                            <Link to={'/Zadanie?idKursu='+searchParams.get("Id")+'&idZadanie=0'} className="m-2 my-3 p-3 btn btn-trinary shadow-sm" >Rozpocznij kurs</Link>
+                            <Link to={'/Zadanie?idKursu='+searchParams.get("Id")+'&idZadanie=0'} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm ${tasks.length === 0 ? 'disabled': ''}`} >Rozpocznij kurs</Link>
                             <button className="m-2 my-3 p-3 btn btn-trinary shadow-sm disabled" >Zakończ kurs</button>
                             <button className="m-2 my-3 p-3 btn btn-trinary shadow-sm disabled" >Następne ćwiczenie</button>
 
@@ -90,11 +103,19 @@ const Course = () => {
                 </div>
                 <div className="col-7">
                     <div className=" container shadow-sm border border-2 border-primary rounded-4 my-3">
-                        <Faq
+                        { tasks.length > 0 ?
+                            <Faq
                             data={data}
                             styles={styles}
                             config={config}
                         />
+                        :
+                            <>
+                                {showAlert}
+                            </>
+
+                        }
+
                     </div>
                 </div>
 

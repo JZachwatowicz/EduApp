@@ -38,7 +38,9 @@ const Courses = (props) => {
             <div class="m-3 bg-primary rounded-4 shadow-sm col-3 p-3 shadow-sm d-flex flex-column">
                 <h3 class="resize align-self-center">Dostępne kursy</h3>
                 {kursy.map( (kurs,index) => (
-                    <button key={index} className="resize m-2 my-3 p-2 btn btn-trinary shadow-sm" onClick={() => {setDesc(index)}}>{kurs.name}</button>
+                    <>
+                    <button key={index} className="resize m-2 my-3 p-2 btn btn-trinary shadow-sm" onClick={() => {setDesc(index)}}>{kurs.subjectName}-{kurs.name}</button>
+                    </>
                 ))}
             </div>
             <div class="col-8 container shadow-sm border border-2 border-primary rounded-4 my-3">

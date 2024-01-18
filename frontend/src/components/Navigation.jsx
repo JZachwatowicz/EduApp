@@ -11,6 +11,7 @@ import {
     Breadcrumbs,
     BreadcrumbsItem
 } from 'react-breadcrumbs-dynamic';
+import AuthService from "../services/AuthService";
 const Navigation = (props) => {
 
 
@@ -64,6 +65,9 @@ const Navigation = (props) => {
                     }
                      </nav>
                 <span class="p-2 px-5">
+                    { localStorage.getItem("token")  &&
+                        <button className="m-1 mx-1 btn btn-trinary shadow-sm" onClick={()=> AuthService.logout()}>Wyloguj</button>
+                    }
                     <button className="btn-transparent" onClick={handleIncrese}><img className="visible" src={contrast} width={30} height={30} class="m-2"/></button>
                     <button className="btn-transparent" onClick={handleIncrese}><img className="visible"src={fontBigger} width={30} height={30} class="m-2"/></button>
                     <button className="btn-transparent" onClick={handleDescrese}><img className="visible"src={fontSmaller} width={30} height={30} class="m-2"/></button>

@@ -12,6 +12,9 @@ const Excercise = (props) => {
     const [content , setContent] = useState(0)
     const [kurs, setKurs] = useState(null);
 
+    const [wrong, setWrong] = useState(false);
+    const [Message, setMessage] = useState("");
+
     useEffect(() => {
         const dataFetch = async () => {
 
@@ -66,6 +69,7 @@ const Excercise = (props) => {
     const checkAnswer = (event) => {
         console.log(chosenAnswer);
          if(chosenAnswer === tasks[content].right_answer){
+             setWrong(false)
              console.log("content" + content)
              console.log("lenghth" + tasks.length)
              if(tasks.length === content+1){
@@ -78,6 +82,10 @@ const Excercise = (props) => {
                  // while(tasks.length > content + 1 && tasks[content].done)
                  setContent(content+1)
              }
+         }
+         else {
+             setWrong(true)
+             setMessage("Zła odpowiedź")
          }
     }
 
@@ -92,6 +100,17 @@ const Excercise = (props) => {
 
         return array;
     }
+
+    let showAlert;
+    if (wrong) {
+        showAlert = <div className="alert alert-danger" role="alert">
+            {Message}
+        </div>;
+    } else {
+        showAlert = <div></div>;
+    }
+
+
     return(
         <div class="container-fluid px-0 ">
             {kurs !== null && kurs !== undefined  && tasks.length > 0 ?
@@ -122,6 +141,7 @@ const Excercise = (props) => {
                         <h4 className="m-2">{tasks[content].title}</h4>
                         <p className="m-2">{tasks[content].content}</p>
                         <p>Pytanie:<br/>{tasks[content].question}</p>
+                        {showAlert}
                             { tasks.length > 0 && tasks[content].answers.length > 0 ? tasks[content].answers.map( (answer, index) => (
 
                                 <div><input onChange={() => {setAnswer(answer)}} type="radio" value={answer} name="Answers" /> {answer}<br/></div>
@@ -133,8 +153,11 @@ const Excercise = (props) => {
                     </div>
                 </div>
             </div>
-                :
-                <span>Coś poszło nie tak</span>
+                :<>
+                    <h2> Ten kurs jest pusty lub nie istnieje</h2>
+
+                </>
+
             }
         </div>
     )

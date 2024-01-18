@@ -9,8 +9,8 @@ class TaskService {
     }
 
     setDone(id){
-        let token = localStorage.getItem("token")
-        return axios.get(api+"setDone?id="+id,  { headers: {"Authorization" : `Bearer ${token}`}})
+        //let token = localStorage.getItem("token")
+        //return axios.get(api+"setDone?id="+id,  { headers: {"Authorization" : `Bearer ${token}`}})
     }
 
 }
