@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+
 
 @Entity @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Table(name="users")
@@ -28,4 +30,7 @@ public class User {
     @Column(nullable=false)
     @Size(min = 3, message = "Hasło musi mieć conajmniej {min} znaki")
     private String password;
+
+    @Column(columnDefinition = "String default 'USER'", updatable = false)
+    private String role;
 }
