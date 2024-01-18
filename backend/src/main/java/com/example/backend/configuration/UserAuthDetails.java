@@ -1,7 +1,7 @@
 package com.example.backend.configuration;
 
-import com.example.backend.dao.UserDao;
 import com.example.backend.entity.User;
+import com.example.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,12 +19,12 @@ import java.util.List;
 public class UserAuthDetails implements UserDetailsService {
 
     @Autowired
-    private UserDao dao;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String login)
             throws UsernameNotFoundException {
-        User user = dao.findByLogin(login);
+        User user = userService.findByLogin(login);
         if (user != null) {
             List<GrantedAuthority> grupa = new ArrayList<>();
             grupa.add(new SimpleGrantedAuthority("normalUser"));

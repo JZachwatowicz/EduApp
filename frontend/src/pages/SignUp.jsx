@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import Login from "../components/Login";
-import SignUpService from "../services/SignUpService"
+import SignUpService from "../services/AuthService"
 import {BreadcrumbsItem} from "react-breadcrumbs-dynamic";
+import AuthService from "../services/AuthService";
+import {useNavigate} from "react-router-dom";
 const SignUp = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
@@ -10,16 +12,26 @@ const SignUp = () => {
     const [consent, setConsent] = useState("");
     const [error, setError] = useState(false);
     const [errorMessage, setMessage] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const user = {login: login, password: password, email: email}
-        console.log(user);
+
         if(user.password == repeatPassword && consent == true){
-            SignUpService.registerUser(user)
-                .then(() => {
-                    console.log("User registered successfully")
-                })
+            console.log("Rejestracja");
+            AuthService.registerUser(user)
+                .then((response) => {
+                    console.log(response)
+                    if(response.status === 200){
+                        navigate("/");
+                    }
+                }).catch((err) => {
+                    console.log(err.response.data); // you can get the response like this
+                    setError(true);
+                    setMessage(err.response.data); // status code of the request
+
+            })
         }
         else if(user.password != repeatPassword){
             setError(true);

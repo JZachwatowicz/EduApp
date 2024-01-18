@@ -9,6 +9,9 @@ import {
     Breadcrumbs,
     BreadcrumbsItem
 } from 'react-breadcrumbs-dynamic';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useAuth } from "./provider/AuthProvider";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

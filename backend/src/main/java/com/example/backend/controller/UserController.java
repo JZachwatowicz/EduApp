@@ -1,15 +1,29 @@
 package com.example.backend.controller;
 
-import com.example.backend.dao.UserDao;
+import com.example.backend.configuration.JwtTokenUtil;
 import com.example.backend.entity.User;
+import com.example.backend.services.UserService;
+import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -17,80 +31,108 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserDao dao;
+    private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login?";
-    }
+    @Autowired
+    private JwtTokenUtil jwtUtil;
 
-    @GetMapping("/register")
-    public String registerPage(Model m) {
-        m.addAttribute("user", new User());
-        return "login";
+    @ResponseBody
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody @Valid User LogReq, BindingResult binding )  {
+
+        try {
+            Authentication authentication =
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(LogReq.getLogin(), LogReq.getPassword()));
+            return new ResponseEntity<>(jwtUtil.createToken(LogReq),HttpStatus.OK);
+
+        }catch (BadCredentialsException e){
+            return new ResponseEntity<>("Niepoprawne dane logowania", HttpStatus.FORBIDDEN);
+        }catch (Exception e){
+            return new ResponseEntity<>("Logowanie nie powiodło się", HttpStatus.FORBIDDEN);
+        }
     }
 
     @PostMapping("/register")
-    public String registerPagePOST(@RequestBody @Valid User user, BindingResult binding) {
-        if (dao.findByLogin(user.getLogin()) != null) {
+    public ResponseEntity<String> registerPagePOST(@RequestBody @Valid User user, BindingResult binding) {
+        if (userService.findByLogin(user.getLogin()) != null) {
             binding.rejectValue("login", "", "Login jest już zajęty");
-            return "login";
+            return new ResponseEntity<>("Login jest już zajęty", HttpStatus.FORBIDDEN);
+        }
+
+        if (userService.findByEmail(user.getEmail()) != null) {
+            binding.rejectValue("login", "", "Konto z podanym email'em już istnieje");
+            return new ResponseEntity<>("Konto z podanym email'em już istnieje", HttpStatus.FORBIDDEN);
         }
 
         if (binding.hasErrors()) {
-            return "login";
+            String errors = "";
+            for (ObjectError error : binding.getAllErrors()) { // 1.
+                String fieldErrors = ((FieldError) error).getField(); // 2.
+                errors = errors.concat(binding.getFieldError(fieldErrors).getDefaultMessage());
+                errors =  errors.concat("\n");
+            }
+            return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        dao.save(user);
-        return "login";
+        userService.save(user);
+        return new ResponseEntity<>("Zarejestrowano", HttpStatus.OK);
     }
 
-    @GetMapping("/profile")
-    public String profilePage(Model m, Principal principal) {
-        m.addAttribute("user", dao.findByLogin(principal.getName()));
-        return "profile";
+    @GetMapping("/user")
+    public User profile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        User user = userService.findByLogin(currentPrincipalName);
+        user.setPassword(" ");
+        return user;
     }
 
-    @GetMapping("/users")
-    public String usersPage(Model m) {
-        m.addAttribute("userList", dao.findAll());
-        return "users";
-    }
+    @PutMapping("/user")
+    public ResponseEntity<String> editUser(@RequestBody @Valid   User user, BindingResult binding){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        if(userService.existsByLogin(currentPrincipalName)){
+        User currentUser = userService.findByLogin(currentPrincipalName);
+        user.setLogin(currentUser.getLogin());
+        user.setId(currentUser.getId());
+        if(user.getEmail().length() > 0){
+            if (userService.findByEmail(user.getEmail()) != null) {
+                return new ResponseEntity<>("Konto z podanym email'em już istnieje", HttpStatus.FORBIDDEN);
+            }
+            if (binding.hasFieldErrors("email")) {
+                return new ResponseEntity<>(binding.getFieldError("email").getDefaultMessage(), HttpStatus.FORBIDDEN);
+            }
 
-    @GetMapping("/account/delete")
-    public String deleteAccount() {
-        return "deleteuser";
-    }
-
-    @PostMapping("/account/delete")
-    public String deleteAccountPOST(Principal principal) {
-        dao.delete(dao.findByLogin(principal.getName()));
-        return "redirect:/logout";
-    }
-
-    @GetMapping("/profile/edit")
-    public String editProfile(Model m, Principal principal) {
-        User user = dao.findByLogin(principal.getName());
-        m.addAttribute(user);
-        return "edituser";
-    }
-
-    @PostMapping("/profile/edit")
-    public String editProfilePOST(@Valid User form, BindingResult binding, Principal principal) {
-        if (!form.getLogin().equals(principal.getName()) && dao.findByLogin(form.getLogin()) != null) {
-            binding.rejectValue("login", "", "Login jest już zajęty");
         }
-
-        if (binding.hasErrors()) {
-            return "edituser";
+        else {
+            user.setEmail(currentUser.getEmail());
         }
-        User user = dao.findByLogin(principal.getName());
-        boolean logout = !user.getLogin().equals(form.getLogin());
-        user.setLogin(form.getLogin());
-        user.setEmail(form.getEmail());
-        user.setPassword(passwordEncoder.encode(form.getPassword()));
-        dao.save(user);
-        return logout ? "redirect:/logout" : "profile";
+            if(user.getPassword().length() > 0){
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+                if (binding.hasFieldErrors("password")) {
+                    return new ResponseEntity<>(binding.getFieldError("password").getDefaultMessage(), HttpStatus.FORBIDDEN);
+                }
+            }
+            else
+                user.setPassword(currentUser.getPassword());
+
+            userService.save(user);
+            return new ResponseEntity<>( "Zmieniono dane użytkownika", HttpStatus.OK) ;
+        }
+        return  new ResponseEntity<>( "Nie udało się zmienić danych użytkownika ponieważ użytkownik nie istnieje", HttpStatus.BAD_REQUEST);
+    }
+    @Transactional
+    @DeleteMapping("/user")
+    public ResponseEntity<String> deleteUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        if(userService.existsByLogin(currentPrincipalName)){
+            userService.deleteByLogin(currentPrincipalName);
+            return new ResponseEntity<>("Usunięto użytkownika", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Nie udało się usunąć użytkownika ponieważ użytkownik nie istnieje", HttpStatus.BAD_REQUEST);
     }
 }

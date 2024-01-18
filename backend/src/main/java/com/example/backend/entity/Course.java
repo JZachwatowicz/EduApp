@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,7 +26,8 @@ public class Course {
     @Column(nullable=false)
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "subject_id")
+    @ManyToOne//(fetch = FetchType.EAGER)
+    @JoinColumn(name = "subject_id", nullable=false)
     private Subject subject;
+
 }
