@@ -2,18 +2,14 @@ package com.example.backend.controller;
 
 import com.example.backend.dtos.CourseDto;
 import com.example.backend.entity.Course;
-import com.example.backend.repository.CourseRepository;
 import com.example.backend.services.CourseServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -33,5 +29,27 @@ public class CourseController {
         } else
             return new ResponseEntity<String>("Kurs o podanym id nie istnieje", HttpStatus.BAD_REQUEST);
 
+    }
+
+    @PostMapping("/courses")
+    public ResponseEntity<String> registerPagePOST(@RequestBody @Valid Course course, BindingResult binding) {
+       /* if (courseService.getCourseByName(course.getName()) != null) {
+            binding.rejectValue("name", "", "Nazwa kursu jest juz zajeta");
+            return new ResponseEntity<>("Nazwa kursu jest juz zajeta", HttpStatus.FORBIDDEN);
+        }
+
+        if (binding.hasErrors()) {
+            String errors = "";
+            for (ObjectError error : binding.getAllErrors()) { // 1.
+                String fieldErrors = ((FieldError) error).getField(); // 2.
+                errors = errors.concat(binding.getFieldError(fieldErrors).getDefaultMessage());
+                errors =  errors.concat("\n");
+            }
+            return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
+        }*/
+
+        System.out.println(course);
+        courseService.save(course);
+        return new ResponseEntity<>("Dodano kurs", HttpStatus.OK);
     }
 }

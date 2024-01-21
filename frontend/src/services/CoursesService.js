@@ -7,6 +7,10 @@ class CourseService {
         return axios.get(api + "courses")
     }
 
+    addCourse(course) {
+        return axios.post(api + "courses", course)
+    }
+
     couresSorted(){
         return axios.get(api + "coursesSorted")
     }
