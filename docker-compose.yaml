@@ -11,7 +11,8 @@ services:
     networks:
       - backend
   backend:
-    image: cupofraccoons/eduapp-backend
+    build:
+      context: backend
     environment:
       - SPRING_PROFILES_ACTIVE=local
     ports:
@@ -20,6 +21,17 @@ services:
       - eduapp-db
     networks:
       - backend
+  front:
+    build:
+      context: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - frontend
+      - backend
 
 networks:
   backend:
+  frontend:
