@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api = "http://localhost:8080/"
+const api = "/api/"
 
 class AuthService {
     registerUser(user) {

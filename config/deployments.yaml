@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: cupofraccoons/eduapp-frontend:latest
+          image: janfigurapollub/eduapp-front:latest
 
 ---
 # backend
@@ -47,7 +47,12 @@ spec:
     spec:
       containers:
         - name: backend
-          image: cupofraccoons/eduapp-backend:latest
+          image: janfigurapollub/eduapp-front:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_URL
+              value: jdbc:mysql://:database:3306/eduapp_db
 
 ---
 # database
@@ -55,6 +60,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: database
+  namespace: eduapp
 spec:
   selector:
     matchLabels:
@@ -66,9 +72,14 @@ spec:
     spec:
       containers:
         - name: database
-          image: mariadb:latest
+          image: mysql:latest
           ports:
             - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: eduapp_db
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
           volumeMounts:
             - name: storage
               mountPath: /data/db
@@ -76,29 +87,3 @@ spec:
         - name: storage
           persistentVolumeClaim:
             claimName: database-pvc
-
----
-# nginx
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx
-  namespace: eduapp
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: nginx
-  strategy:
-    rollingUpdate:
-      maxSurge: 5
-      maxUnavailable: 2
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
-        app: backend
-    spec:
-      containers:
-        - name: backend
-          image: cupofraccoons/eduapp-backend:latest
