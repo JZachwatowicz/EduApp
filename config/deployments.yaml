@@ -1,0 +1,104 @@
+# front
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: eduapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 2
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: cupofraccoons/eduapp-frontend:latest
+
+---
+# backend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: eduapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 2
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: cupofraccoons/eduapp-backend:latest
+
+---
+# database
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+spec:
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: database
+          image: mariadb:latest
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: database-pvc
+
+---
+# nginx
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: eduapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 2
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: cupofraccoons/eduapp-backend:latest

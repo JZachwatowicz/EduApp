@@ -1,0 +1,25 @@
+version: "3"
+services:
+  eduapp-db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=eduapp_db
+      - MYSQL_ROOT_PASSWORD=root
+    container_name: eduapp-db
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+  backend:
+    image: cupofraccoons/eduapp-backend
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eduapp-db
+    networks:
+      - backend
+
+networks:
+  backend:
