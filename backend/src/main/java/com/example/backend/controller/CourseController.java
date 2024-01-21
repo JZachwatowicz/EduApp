@@ -3,11 +3,14 @@ package com.example.backend.controller;
 import com.example.backend.dtos.CourseDto;
 import com.example.backend.entity.Course;
 import com.example.backend.services.CourseServiceImpl;
+import com.example.backend.services.SubjectServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,9 @@ import java.util.List;
 public class CourseController {
     @Autowired
     private CourseServiceImpl courseService;
+
+    @Autowired
+    private SubjectServiceImpl subjectService;
 
     @GetMapping("/courses")
     public List<CourseDto> getAllCourses() { return courseService.getAllCourses();}
@@ -32,8 +38,8 @@ public class CourseController {
     }
 
     @PostMapping("/courses")
-    public ResponseEntity<String> registerPagePOST(@RequestBody @Valid Course course, BindingResult binding) {
-       /* if (courseService.getCourseByName(course.getName()) != null) {
+    public ResponseEntity<String> registerPagePOST(@RequestBody @Valid Course course, @RequestParam Long subject_id, BindingResult binding) {
+        if (courseService.existByName(course.getName())) {
             binding.rejectValue("name", "", "Nazwa kursu jest juz zajeta");
             return new ResponseEntity<>("Nazwa kursu jest juz zajeta", HttpStatus.FORBIDDEN);
         }
@@ -46,9 +52,10 @@ public class CourseController {
                 errors =  errors.concat("\n");
             }
             return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
-        }*/
+        }
 
-        System.out.println(course);
+        course.setSubject(subjectService.findSubjectById(subject_id));
+        System.out.println(course.getName() + " - " + course.getSubject().getName());
         courseService.save(course);
         return new ResponseEntity<>("Dodano kurs", HttpStatus.OK);
     }

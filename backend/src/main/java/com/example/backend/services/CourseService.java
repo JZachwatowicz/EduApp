@@ -11,10 +11,13 @@ public interface CourseService {
     public List<CourseDto> getCourseById(Long id);
 
     public List<CourseDto> getCourseByName(String name);
+    boolean existByName(String name);
 
     public Boolean courseExists(Long id);
 
     List<CourseDto> getAllCoursesSorted();
 
     void save(Course course);
+
+    ;
 }

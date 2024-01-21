@@ -33,19 +33,19 @@ const SignUp = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const course = {name: name, description: description, subject_id: subject}
+        const course = {name: name, description: description, subject_id: null}
             console.log("Dodawanie kursu");
             console.log(course);
-            CoursesService.addCourse(course)
+            CoursesService.addCourse(course, subject)
                 .then((response) => {
                     console.log(response)
                     if(response.status === 200){
                         navigate("/");
                     }
                 }).catch((err) => {
-                    console.log(err); // you can get the response like this
+                    console.log(err.response.data); // you can get the response like this
                     setError(true);
-                    setMessage(err); // status code of the request
+                    setMessage(err.response.data); // status code of the request
 
             })
     }

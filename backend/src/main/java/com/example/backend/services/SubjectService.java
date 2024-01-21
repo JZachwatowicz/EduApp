@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface SubjectService {
 
+    public Subject findSubjectById(Long id);
     public List<Subject> getAllSubjects();
 }
