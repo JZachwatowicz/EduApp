@@ -12,6 +12,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Navigation from "./Navigation";
 import {Breadcrumbs} from "react-breadcrumbs-dynamic";
 import PageNotFound from "../pages/404Page";
+import AddCourse from "../pages/AddCourse";
 
 const Routes = ({children}) => {
     const { token } = useAuth();
@@ -31,6 +32,10 @@ const Routes = ({children}) => {
         {
             path: "*",
             element: <PageNotFound/>
+        },
+        {
+            path: "/DodajKurs",
+            element: <AddCourse/>
         }
 
     ];
@@ -61,7 +66,7 @@ const Routes = ({children}) => {
                 {
                     path: "/Zadanie",
                     element: <Exercise/>,
-                },
+                }
             ],
         },
     ];

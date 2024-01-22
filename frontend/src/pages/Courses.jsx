@@ -7,20 +7,20 @@ const Courses = (props) => {
     const [currentDesc , setDesc] = useState(0)
 
     useEffect(() => {
-    const dataFetch = async () => {
+        const dataFetch = async () => {
 
-        CoursesService.courses()
-            .then((response) => {
-                console.log(response)
-                setKursy(response.data);
-            }).catch((err) => {
-            console.log(err.response.data); // you can get the response like this
-            console.log(err.response.status);
-        })
+            CoursesService.courses()
+                .then((response) => {
+                    console.log(response)
+                    setKursy(response.data);
+                }).catch((err) => {
+                console.log(err.response.data); // you can get the response like this
+                console.log(err.response.status);
+            })
 
-    };
+        };
 
-    dataFetch();
+        dataFetch();
     }, []);
 
 

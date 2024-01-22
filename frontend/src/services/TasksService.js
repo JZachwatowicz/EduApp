@@ -13,6 +13,10 @@ class TaskService {
         //return axios.get(api+"setDone?id="+id,  { headers: {"Authorization" : `Bearer ${token}`}})
     }
 
+    addTask(task, courseId) {
+        return axios.post(api + "task?courseId="+courseId, task)
+    }
+
 }
 
 export default new TaskService()
