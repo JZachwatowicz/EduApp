@@ -32,6 +32,10 @@ const Routes = ({children}) => {
         {
             path: "*",
             element: <PageNotFound/>
+        },
+        {
+            path: "/DodajKurs",
+            element: <AddCourse/>
         }
 
     ];
@@ -62,10 +66,6 @@ const Routes = ({children}) => {
                 {
                     path: "/Zadanie",
                     element: <Exercise/>,
-                },
-                {
-                    path: "/DodajKurs",
-                    element: <AddCourse/>
                 }
             ],
         },

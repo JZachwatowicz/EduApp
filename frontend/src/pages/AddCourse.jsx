@@ -6,24 +6,28 @@ import {Link, useNavigate} from "react-router-dom";
 import Courses from "./Courses";
 import CoursesService from "../services/CoursesService";
 import SubjectService from "../services/SubjectService";
-const SignUp = () => {
+const AddCourse = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [subject, setSubject] = useState("1");
     const [subjectList, setSubjectList] = useState([]);
+
     const [error, setError] = useState(false);
     const [errorMessage, setMessage] = useState("");
     const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchData = async () => {
 
             SubjectService.subjects()
                 .then((response) => {
+                    console.log("Get subjects");
+                    console.log(response);
                     setSubjectList(response.data);
                 }).catch((err) => {
-                console.log(err.response.data); // you can get the response like this
-                console.log(err.response.status);
+                    console.log(err); // you can get the response like this
+                    //console.log(err.response.status);
             })
 
         };
@@ -107,4 +111,4 @@ const SignUp = () => {
 };
 
 
-export default SignUp;
+export default AddCourse;
