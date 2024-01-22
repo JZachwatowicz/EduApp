@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -53,5 +54,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteByLogin(String login) {
         userRepository.deleteByLogin(login);
+    }
+
+    @Override
+    public boolean isAdmin(String login) {
+        return Objects.equals(userRepository.findByLogin(login).getRole(), "ADMIN");
     }
 }

@@ -75,7 +75,7 @@ public class UserController {
             }
             return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
         }
-
+        user.setRole("USER");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return new ResponseEntity<>("Zarejestrowano", HttpStatus.OK);
@@ -98,6 +98,7 @@ public class UserController {
         User currentUser = userService.findByLogin(currentPrincipalName);
         user.setLogin(currentUser.getLogin());
         user.setId(currentUser.getId());
+        //user.setRole("USER");
         if(user.getEmail().length() > 0){
             if (userService.findByEmail(user.getEmail()) != null) {
                 return new ResponseEntity<>("Konto z podanym email'em już istnieje", HttpStatus.FORBIDDEN);
@@ -134,5 +135,12 @@ public class UserController {
             return new ResponseEntity<>("Usunięto użytkownika", HttpStatus.OK);
         }
         return new ResponseEntity<>("Nie udało się usunąć użytkownika ponieważ użytkownik nie istnieje", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/userIsAdmin")
+    public Boolean isAdmin(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        return userService.isAdmin(currentPrincipalName);
     }
 }
