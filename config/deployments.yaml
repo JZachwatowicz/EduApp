@@ -47,12 +47,12 @@ spec:
     spec:
       containers:
         - name: backend
-          image: janfigurapollub/eduapp-front:latest
+          image: janfigurapollub/eduapp-back:latest
           ports:
             - containerPort: 8080
           env:
             - name: MYSQL_URL
-              value: jdbc:mysql://:database:3306/eduapp_db
+              value: jdbc:mysql://database:3306/eduapp_db
 
 ---
 # database
