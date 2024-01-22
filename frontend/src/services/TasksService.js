@@ -18,6 +18,16 @@ class TaskService {
         return axios.post(api + "tasks?courseId="+courseId, task, { headers: {"Authorization" : `Bearer ${token}`} })
     }
 
+    editTask(task, courseId) {
+        let token = localStorage.getItem("token")
+        return axios.put(api + "tasks?courseId="+courseId, task, { headers: {"Authorization" : `Bearer ${token}`} })
+    }
+
+    getTask(id) {
+        let token = localStorage.getItem("token")
+        return axios.get(api+"task?id="+id, { headers: {"Authorization" : `Bearer ${token}`} })
+    }
+
 }
 
 export default new TaskService()

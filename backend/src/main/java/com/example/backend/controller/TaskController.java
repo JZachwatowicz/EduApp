@@ -83,6 +83,11 @@ public class TaskController {
         }
     }
 
+    @GetMapping("/task")
+    public ResponseEntity<Task> getOneTask(@RequestParam Long id) {
+        return new ResponseEntity<>(taskService.findTaskById(id), HttpStatus.OK);
+    }
+
     @PutMapping("/tasks")
     public ResponseEntity<String> editTaskPOST(@RequestBody @Valid Task task, @RequestParam Long courseId, BindingResult binding) {
         /*if (courseService.courseExists(courseId)) {
@@ -104,14 +109,16 @@ public class TaskController {
         if (userService.isAdmin(currentPrincipalName)) {
             Task db_task = taskService.findTaskById(task.getId());
 
+            db_task.setId(task.getId());
             db_task.setCourse(courseService.getOneCourse(courseId));
             db_task.setQuestion(task.getQuestion());
             db_task.setRight_answer(task.getRight_answer());
             db_task.setWrong_answers(task.getWrong_answers());
             db_task.setTitle(task.getTitle());
+            db_task.setDone(task.getDone());
             db_task.setContent(task.getContent());
 
-            taskService.save(task);
+            taskService.save(db_task);
             return new ResponseEntity<>("Edytowano zadanie", HttpStatus.OK);
         }
         else {

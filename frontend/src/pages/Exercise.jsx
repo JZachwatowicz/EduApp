@@ -150,6 +150,7 @@ const Excercise = (props) => {
                                 <div>Cos poszlo nir tak</div>
                             }
                         <button className="m-2 my-3 p-2 btn btn-trinary shadow-sm" onClick={checkAnswer}>Sprawdź</button>
+                        <Link to={'/EdytujZadanie?taskId='+tasks[content].id+"&courseId="+searchParams.get("idKursu")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Edytuj zadanie</Link>
                     </div>
                 </div>
             </div>

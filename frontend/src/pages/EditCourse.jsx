@@ -24,11 +24,12 @@ const EditCourse = () => {
             CoursesService.course(course_id)
                 .then((response) => {
                     console.log("Get Course");
-                    console.log(response);
-                    var c = response.data;
-                    setName(c.name);
-                    setDescription(c.description);
-                    setSubject(c.subject_id);
+                    console.log(response.data[0]);
+                    setName(response.data[0].name);
+                    console.log("Name ---------");
+                    console.log(name);
+                    setDescription(response.data[0].description);
+                    setSubject(response.data[0].subjectName);
                 })
 
             SubjectService.subjects()
