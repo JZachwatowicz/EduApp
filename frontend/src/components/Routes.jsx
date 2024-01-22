@@ -13,6 +13,7 @@ import Navigation from "./Navigation";
 import {Breadcrumbs} from "react-breadcrumbs-dynamic";
 import PageNotFound from "../pages/404Page";
 import AddCourse from "../pages/AddCourse";
+import AddTask from "../pages/AddTask";
 
 const Routes = ({children}) => {
     const { token } = useAuth();
@@ -32,10 +33,6 @@ const Routes = ({children}) => {
         {
             path: "*",
             element: <PageNotFound/>
-        },
-        {
-            path: "/DodajKurs",
-            element: <AddCourse/>
         }
 
     ];
@@ -66,6 +63,14 @@ const Routes = ({children}) => {
                 {
                     path: "/Zadanie",
                     element: <Exercise/>,
+                },
+                {
+                    path: "/DodajKurs",
+                    element: <AddCourse/>
+                },
+                {
+                    path: "/DodajZadanie",
+                    element: <AddTask/>
                 }
             ],
         },

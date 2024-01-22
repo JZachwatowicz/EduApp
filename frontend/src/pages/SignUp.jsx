@@ -20,6 +20,7 @@ const SignUp = () => {
 
         if(user.password == repeatPassword && consent == true){
             console.log("Rejestracja");
+            console.log(user);
             AuthService.registerUser(user)
                 .then((response) => {
                     console.log(response)

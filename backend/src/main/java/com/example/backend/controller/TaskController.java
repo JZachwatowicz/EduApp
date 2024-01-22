@@ -6,13 +6,12 @@ import com.example.backend.services.CourseServiceImpl;
 import com.example.backend.services.StudentTaskServiceImpl;
 import com.example.backend.services.TaskServiceImpl;
 import com.example.backend.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,6 +51,28 @@ public class TaskController {
         else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/tasks")
+    public ResponseEntity<String> addTaskPOST(@RequestBody @Valid Task task, @RequestParam Long courseId, BindingResult binding) {
+        /*if (courseService.courseExists(courseId)) {
+            binding.rejectValue("name", "", "Nie ma takiego kursu");
+            return new ResponseEntity<>("Nie ma takiego kursu", HttpStatus.FORBIDDEN);
+        }
+
+        if (binding.hasErrors()) {
+            String errors = "";
+            for (ObjectError error : binding.getAllErrors()) { // 1.
+                String fieldErrors = ((FieldError) error).getField(); // 2.
+                errors = errors.concat(binding.getFieldError(fieldErrors).getDefaultMessage());
+                errors =  errors.concat("\n");
+            }
+            return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
+        }*/
+
+        task.setCourse(courseService.getOneCourse(courseId));
+        taskService.save(task);
+        return new ResponseEntity<>("Dodano kurs", HttpStatus.OK);
     }
 
 }

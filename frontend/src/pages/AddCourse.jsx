@@ -44,7 +44,8 @@ const AddCourse = () => {
                 .then((response) => {
                     console.log(response)
                     if(response.status === 200){
-                        navigate("/");
+                        console.log(response.data)
+                        navigate("/DodajZadanie?courseId="+response.data)
                     }
                 }).catch((err) => {
                     console.log(err.response.data); // you can get the response like this
