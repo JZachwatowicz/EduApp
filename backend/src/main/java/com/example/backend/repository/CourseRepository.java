@@ -11,6 +11,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 //    List<CourseDto> getAllCourses();
     List<Course> findByOrderByNameAsc();
 
+    Course findCourseById(Long id);
+
     List<Course> findByName(String name);
 
     boolean existsByName(String name);

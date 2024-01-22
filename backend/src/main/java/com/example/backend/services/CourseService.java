@@ -19,5 +19,7 @@ public interface CourseService {
 
     void save(Course course);
 
+    public Course getOneCourse(Long id);
+
     ;
 }

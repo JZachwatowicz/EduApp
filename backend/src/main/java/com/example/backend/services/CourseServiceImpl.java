@@ -31,6 +31,10 @@ public class CourseServiceImpl implements CourseService{
                 .map(courseMapper::mapCourseToCourseDto).collect(Collectors.toList());
     }
 
+    public Course getOneCourse(Long id){
+        return courseRepository.findCourseById(id);
+    }
+
     @Override
     public List<CourseDto> getCourseByName(String name) {
         return (List<CourseDto>) courseRepository.findByName(name)

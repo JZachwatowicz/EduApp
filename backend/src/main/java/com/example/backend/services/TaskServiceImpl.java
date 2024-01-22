@@ -1,7 +1,6 @@
 package com.example.backend.services;
 
 import com.example.backend.entity.Task;
-import com.example.backend.repository.CourseRepository;
 import com.example.backend.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +33,10 @@ public class TaskServiceImpl implements TaskService{
         }
 
 
+    }
+
+    @Override
+    public void save(Task task) {
+        taskRepository.save(task);
     }
 }

@@ -38,7 +38,7 @@ public class CourseController {
     }
 
     @PostMapping("/courses")
-    public ResponseEntity<String> registerPagePOST(@RequestBody @Valid Course course, @RequestParam Long subject_id, BindingResult binding) {
+    public ResponseEntity<?> addCoursePOST(@RequestBody @Valid Course course, @RequestParam Long subject_id, BindingResult binding) {
         if (courseService.existByName(course.getName())) {
             binding.rejectValue("name", "", "Nazwa kursu jest juz zajeta");
             return new ResponseEntity<>("Nazwa kursu jest juz zajeta", HttpStatus.FORBIDDEN);
@@ -57,6 +57,6 @@ public class CourseController {
         course.setSubject(subjectService.findSubjectById(subject_id));
         System.out.println(course.getName() + " - " + course.getSubject().getName());
         courseService.save(course);
-        return new ResponseEntity<>("Dodano kurs", HttpStatus.OK);
+        return new ResponseEntity<>(course.getId(), HttpStatus.OK);
     }
 }
