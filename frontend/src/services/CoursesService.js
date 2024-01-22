@@ -18,6 +18,10 @@ class CourseService {
     course(id){
          return axios.get(api + "courseById?id="+id)
     }
+
+    editCourse(course, subject_id) {
+        return axios.put(api + "courses?subject_id=" + subject_id, course)
+    }
 }
 
 export default new CourseService()

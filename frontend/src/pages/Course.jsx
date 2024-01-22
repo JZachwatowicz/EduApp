@@ -94,6 +94,7 @@ const Course = () => {
                             <button className="m-2 my-3 p-3 btn btn-trinary shadow-sm disabled" >Zakończ kurs</button>
                             <button className="m-2 my-3 p-3 btn btn-trinary shadow-sm disabled" >Następne ćwiczenie</button>
                             <Link to={'/DodajZadanie?courseId='+searchParams.get("Id")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Dodaj zadanie</Link>
+                            <Link to={'/EdytujKurs?courseId='+searchParams.get("Id")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Edytuj kurs</Link>
 
                         </div>
                     </div>
