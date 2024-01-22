@@ -2,8 +2,8 @@
 `./start.sh`
 
 # Buodowanie obrazów:
-`docker build -t cupofraccoons/eduapp-front:{wersja} ../front`
-`docker build -t cupofraccoons/eduapp-back:{wersja} ../back`
+`docker build -t cupofraccoons/eduapp-front:{wersja} ../frontend`
+`docker build -t cupofraccoons/eduapp-back:{wersja} ../backend`
 
 # Pushowanie
 `docker push cupofraccoons/eduapp-front:{wersja}`
