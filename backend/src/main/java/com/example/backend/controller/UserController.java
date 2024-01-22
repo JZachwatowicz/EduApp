@@ -56,6 +56,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerPagePOST(@RequestBody @Valid User user, BindingResult binding) {
+
         if (userService.findByLogin(user.getLogin()) != null) {
             binding.rejectValue("login", "", "Login jest już zajęty");
             return new ResponseEntity<>("Login jest już zajęty", HttpStatus.FORBIDDEN);

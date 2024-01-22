@@ -4,10 +4,13 @@ import com.example.backend.dtos.CourseDto;
 import com.example.backend.entity.Course;
 import com.example.backend.services.CourseServiceImpl;
 import com.example.backend.services.SubjectServiceImpl;
+import com.example.backend.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -20,6 +23,9 @@ import java.util.List;
 public class CourseController {
     @Autowired
     private CourseServiceImpl courseService;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     @Autowired
     private SubjectServiceImpl subjectService;
@@ -39,17 +45,20 @@ public class CourseController {
 
     @PostMapping("/courses")
     public ResponseEntity<?> addCoursePOST(@RequestBody @Valid Course course, @RequestParam Long subject_id, BindingResult binding) {
-        if (courseService.existByName(course.getName())) {
-            binding.rejectValue("name", "", "Nazwa kursu jest juz zajeta");
-            return new ResponseEntity<>("Nazwa kursu jest juz zajeta", HttpStatus.FORBIDDEN);
-        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        if (userService.isAdmin(currentPrincipalName)){
+            if (courseService.existByName(course.getName())) {
+                binding.rejectValue("name", "", "Nazwa kursu jest juz zajeta");
+                return new ResponseEntity<>("Nazwa kursu jest juz zajeta", HttpStatus.FORBIDDEN);
+            }
 
         if (binding.hasErrors()) {
             String errors = "";
             for (ObjectError error : binding.getAllErrors()) { // 1.
                 String fieldErrors = ((FieldError) error).getField(); // 2.
                 errors = errors.concat(binding.getFieldError(fieldErrors).getDefaultMessage());
-                errors =  errors.concat("\n");
+                errors = errors.concat("\n");
             }
             return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
         }
@@ -58,5 +67,9 @@ public class CourseController {
         System.out.println(course.getName() + " - " + course.getSubject().getName());
         courseService.save(course);
         return new ResponseEntity<>(course.getId(), HttpStatus.OK);
+    }
+        else {
+            return new ResponseEntity<>("User is not admin", HttpStatus.FORBIDDEN);
+        }
     }
 }

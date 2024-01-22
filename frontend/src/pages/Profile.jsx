@@ -26,7 +26,10 @@ const Profile = () => {
                     <span className="col-11 d-flex justify-content-center"><h2>Profil</h2></span>
                 </div>
                 <div className="row mx-5">
-                    <Link class="m-1 mx-3 text-trinary" to="/DodajKurs">Dodaj kurs</Link>
+                    { user !== null && user.role === 'ADMIN' &&
+                        <Link class="m-1 mx-3 text-trinary" to="/DodajKurs">Dodaj kurs</Link>
+                    }
+
                     <div className="col-11 ">
                         <div className=" container p-3 shadow-sm border border-2 border-primary rounded-4 my-3 d-flex flex-column align-items-center">
                             { user !== null ?

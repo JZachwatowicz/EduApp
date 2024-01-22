@@ -10,6 +10,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,10 +71,16 @@ public class TaskController {
             }
             return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
         }*/
-
-        task.setCourse(courseService.getOneCourse(courseId));
-        taskService.save(task);
-        return new ResponseEntity<>("Dodano kurs", HttpStatus.OK);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        if (userService.isAdmin(currentPrincipalName)) {
+            task.setCourse(courseService.getOneCourse(courseId));
+            taskService.save(task);
+            return new ResponseEntity<>("Dodano kurs", HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>("User is not admin", HttpStatus.FORBIDDEN);
+        }
     }
 
 }
