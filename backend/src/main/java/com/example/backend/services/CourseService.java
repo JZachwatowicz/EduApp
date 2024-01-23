@@ -21,5 +21,5 @@ public interface CourseService {
 
     public Course getOneCourse(Long id);
 
-    ;
+    public void deleteById(Long id);
 }
