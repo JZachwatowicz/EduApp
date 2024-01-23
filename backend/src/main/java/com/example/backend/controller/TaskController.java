@@ -128,6 +128,10 @@ public class TaskController {
 
     @DeleteMapping("task")
     public ResponseEntity<String> deleteTask(@RequestParam Long id) {
+        if(taskService.findTaskById(id) == null) {
+            return new ResponseEntity<>("Nie ma zadania o takim id", HttpStatus.BAD_REQUEST);
+        }
+
         taskService.deleteById(id);
         return new ResponseEntity<>("Usunięto zadanie", HttpStatus.OK);
     }

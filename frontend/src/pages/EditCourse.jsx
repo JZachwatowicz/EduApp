@@ -21,17 +21,6 @@ const EditCourse = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            CoursesService.course(course_id)
-                .then((response) => {
-                    console.log("Get Course");
-                    console.log(response.data[0]);
-                    setName(response.data[0].name);
-                    console.log("Name ---------");
-                    console.log(name);
-                    setDescription(response.data[0].description);
-                    setSubject(response.data[0].subjectName);
-                })
-
             SubjectService.subjects()
                 .then((response) => {
                     console.log("Get subjects");
@@ -41,6 +30,19 @@ const EditCourse = () => {
                     console.log(err); // you can get the response like this
                     //console.log(err.response.status);
             })
+
+            CoursesService.course(course_id)
+                .then((response) => {
+                    console.log("Get Course");
+                    console.log(response.data[0]);
+                    setName(response.data[0].name);
+                    console.log("Name ---------");
+                    console.log(name);
+                    setDescription(response.data[0].description);
+                    console.log(response.data[0].subjectName)
+                    console.log(subjectList);
+                    //setSubject(response.data[0].subjectName)
+                })
 
         };
 
@@ -53,6 +55,7 @@ const EditCourse = () => {
             console.log("Edycja kursu");
             console.log(course);
             console.log(subject);
+
             CoursesService.editCourse(course, subject)
                 .then((response) => {
                     console.log(response)

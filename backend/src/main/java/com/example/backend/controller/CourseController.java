@@ -114,6 +114,11 @@ public class CourseController {
 
     @DeleteMapping("courses")
     public ResponseEntity<String> deleteCourse(@RequestParam Long id) {
+
+        if (courseService.getCourseById(id) == null) {
+            return new ResponseEntity<>("Kurs o podanym id nie istnieje", HttpStatus.BAD_REQUEST);
+        }
+
         List<Task> tasks = taskService.findTasksByCourse_Id(id);
         for(Task task : tasks){
             taskService.deleteById(task.getId());
