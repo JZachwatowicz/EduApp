@@ -1,3 +1,3 @@
 #!/bin/sh
-minikube kubectl -- create ns eduapp
-find . -name '*.yaml' -exec minikube kubectl -- apply -f {} \;
+microk8s kubectl create ns eduapp;
+sudo find . -name '*.yaml' -exec microk8s kubectl apply -f {} \;

@@ -1,0 +1,13 @@
+Skład grupy: Oliwia Zioło i Julia Zachwatowicz
+
+Przed uruchomieniem aplikacji należe uruchomić ingress:
+`microk8s enable ingress`
+
+Aplikację uruchamia się komendą `./start.sh` z poziomu folderu EduApp_2.2/config
+Aplikacja po uruchomieniu korzysta z url 127.0.0.1
+
+Szczegółowe informacje o tworzeniu/aktualizjacji obrazów znajdują się w pliku README w katalogu config
+
+
+
+

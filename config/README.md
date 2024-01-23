@@ -9,6 +9,6 @@
 `docker push cupofraccoons/eduapp-front:{wersja}`
 `docker push cupofraccoons/eduapp-back:{wersja}`
 
-# Aktualiacja deploymentów:
+# Aktualizacja deploymentów:
 W pliku **deployments.yaml** trzeba zmienić wersję image i następnie odpalić:
 `./start.sh`
