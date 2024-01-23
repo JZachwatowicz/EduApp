@@ -82,11 +82,14 @@ public class CourseController {
     public ResponseEntity<?> editCoursePOST(@RequestBody @Valid Course course, @RequestParam Long subject_id, BindingResult binding) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getPrincipal().toString();
+
         if (userService.isAdmin(currentPrincipalName)){
-            /*if (courseService.existByName(course.getName())) {
+            Course db_course = courseService.getOneCourse(course.getId());
+
+            if (!db_course.getName().equals(course.getName()) && courseService.existByName(course.getName())) {
                 binding.rejectValue("name", "", "Nazwa kursu jest juz zajeta");
                 return new ResponseEntity<>("Nazwa kursu jest juz zajeta", HttpStatus.FORBIDDEN);
-            }*/
+            }
 
             if (binding.hasErrors()) {
                 String errors = "";
@@ -97,8 +100,6 @@ public class CourseController {
                 }
                 return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
             }
-
-            Course db_course = courseService.getOneCourse(course.getId());
 
             db_course.setSubject(subjectService.findSubjectById(subject_id));
             db_course.setName(course.getName());
