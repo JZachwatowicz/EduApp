@@ -22,6 +22,11 @@ class CourseService {
     editCourse(course, subject_id) {
         return axios.put(api + "courses?subject_id=" + subject_id, course)
     }
+
+    deleteCourse(id) {
+        axios.delete(api + "courses?id=" + id)
+        window.location.replace("http://localhost:3000/Kursy")
+    }
 }
 
 export default new CourseService()

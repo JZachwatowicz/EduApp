@@ -126,4 +126,10 @@ public class TaskController {
         }
     }
 
+    @DeleteMapping("task")
+    public ResponseEntity<String> deleteTask(@RequestParam Long id) {
+        taskService.deleteById(id);
+        return new ResponseEntity<>("Usunięto zadanie", HttpStatus.OK);
+    }
+
 }

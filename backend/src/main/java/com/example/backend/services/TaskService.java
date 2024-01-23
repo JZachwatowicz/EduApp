@@ -12,5 +12,8 @@ public interface TaskService {
     void setDone(Long id);
 
     public void save(Task task);
+
+
+    public void deleteById(Long id);
 }
 

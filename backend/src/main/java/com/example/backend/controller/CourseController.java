@@ -2,8 +2,10 @@ package com.example.backend.controller;
 
 import com.example.backend.dtos.CourseDto;
 import com.example.backend.entity.Course;
+import com.example.backend.entity.Task;
 import com.example.backend.services.CourseServiceImpl;
 import com.example.backend.services.SubjectServiceImpl;
+import com.example.backend.services.TaskServiceImpl;
 import com.example.backend.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class CourseController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private TaskServiceImpl taskService;
 
     @Autowired
     private SubjectServiceImpl subjectService;
@@ -105,5 +110,15 @@ public class CourseController {
         else {
             return new ResponseEntity<>("User is not admin", HttpStatus.FORBIDDEN);
         }
+    }
+
+    @DeleteMapping("courses")
+    public ResponseEntity<String> deleteCourse(@RequestParam Long id) {
+        List<Task> tasks = taskService.findTasksByCourse_Id(id);
+        for(Task task : tasks){
+            taskService.deleteById(task.getId());
+        }
+        courseService.deleteById(id);
+        return new ResponseEntity<>("Usunięto kurs i wszystkie towarzyszące mu zadania", HttpStatus.OK);
     }
 }
