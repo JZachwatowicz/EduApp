@@ -18,7 +18,7 @@ const Home = () => {
 
             CoursesService.couresSorted()
                 .then((response) => {
-                    console.log(response)
+                    console.log(response.data)
                     setKursy(response.data);
                 }).catch((err) => {
                 console.log(err.response.data); // you can get the response like this

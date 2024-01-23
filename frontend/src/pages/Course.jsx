@@ -18,6 +18,8 @@ const Course = () => {
     const [error, setError] = useState(false);
     const [errorMessage, setMessage] = useState("");
 
+    const [user, setUser] = useState(null);
+
     const styles = {
 
         titleTextColor: "black",
@@ -33,6 +35,11 @@ const Course = () => {
 
     useEffect(() => {
         const dataFetch = async () => {
+            AuthService.profile()
+                .then((response) => {
+                    console.log(response)
+                    setUser(response.data);
+                })
 
             CoursesService.course(searchParams.get("Id"))
                 .then((response) => {
@@ -94,9 +101,13 @@ const Course = () => {
                             <Link to={'/Zadanie?idKursu='+searchParams.get("Id")+'&idZadanie=0'} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm ${tasks.length === 0 ? 'disabled': ''}`} >Rozpocznij kurs</Link>
                             <button className="m-2 my-3 p-3 btn btn-trinary shadow-sm disabled" >Zakończ kurs</button>
                             <button className="m-2 my-3 p-3 btn btn-trinary shadow-sm disabled" >Następne ćwiczenie</button>
-                            <Link to={'/DodajZadanie?courseId='+searchParams.get("Id")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Dodaj zadanie</Link>
-                            <Link to={'/EdytujKurs?courseId='+searchParams.get("Id")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Edytuj kurs</Link>
-                            <button className="m-1 mx-1 btn btn-trinary shadow-sm" onClick={()=> CoursesService.deleteCourse(searchParams.get("Id"))}>Usuń kurs</button>
+                            { user !== null && user.role === 'ADMIN' &&
+                                <>
+                                <Link to={'/DodajZadanie?courseId='+searchParams.get("Id")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Dodaj zadanie</Link>
+                                <Link to={'/EdytujKurs?courseId='+searchParams.get("Id")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Edytuj kurs</Link>
+                                <button className="m-1 mx-1 btn btn-trinary shadow-sm" onClick={()=> CoursesService.deleteCourse(searchParams.get("Id"))}>Usuń kurs</button>
+                                </>
+                        }
 
                         </div>
                     </div>

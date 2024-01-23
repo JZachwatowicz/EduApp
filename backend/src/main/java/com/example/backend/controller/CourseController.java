@@ -114,16 +114,22 @@ public class CourseController {
 
     @DeleteMapping("courses")
     public ResponseEntity<String> deleteCourse(@RequestParam Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        if (userService.isAdmin(currentPrincipalName)) {
 
-        if (courseService.getCourseById(id) == null) {
-            return new ResponseEntity<>("Kurs o podanym id nie istnieje", HttpStatus.BAD_REQUEST);
-        }
+            if (courseService.getCourseById(id) == null) {
+                return new ResponseEntity<>("Kurs o podanym id nie istnieje", HttpStatus.BAD_REQUEST);
+            }
 
-        List<Task> tasks = taskService.findTasksByCourse_Id(id);
-        for(Task task : tasks){
-            taskService.deleteById(task.getId());
+            List<Task> tasks = taskService.findTasksByCourse_Id(id);
+            for (Task task : tasks) {
+                taskService.deleteById(task.getId());
+            }
+            courseService.deleteById(id);
+            return new ResponseEntity<>("Usunięto kurs i wszystkie towarzyszące mu zadania", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User is not admin", HttpStatus.FORBIDDEN);
         }
-        courseService.deleteById(id);
-        return new ResponseEntity<>("Usunięto kurs i wszystkie towarzyszące mu zadania", HttpStatus.OK);
     }
 }

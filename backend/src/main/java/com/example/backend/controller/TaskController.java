@@ -84,8 +84,14 @@ public class TaskController {
     }
 
     @GetMapping("/task")
-    public ResponseEntity<Task> getOneTask(@RequestParam Long id) {
-        return new ResponseEntity<>(taskService.findTaskById(id), HttpStatus.OK);
+    public ResponseEntity<?> getOneTask(@RequestParam Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        if (userService.isAdmin(currentPrincipalName)) {
+            return new ResponseEntity<>(taskService.findTaskById(id), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User is not admin", HttpStatus.FORBIDDEN);
+        }
     }
 
     @PutMapping("/tasks")
@@ -128,12 +134,18 @@ public class TaskController {
 
     @DeleteMapping("task")
     public ResponseEntity<String> deleteTask(@RequestParam Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getPrincipal().toString();
+        if (userService.isAdmin(currentPrincipalName)) {
         if(taskService.findTaskById(id) == null) {
             return new ResponseEntity<>("Nie ma zadania o takim id", HttpStatus.BAD_REQUEST);
         }
 
         taskService.deleteById(id);
         return new ResponseEntity<>("Usunięto zadanie", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User is not admin", HttpStatus.FORBIDDEN);
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import {BreadcrumbsItem} from "react-breadcrumbs-dynamic";
 import CoursesService from "../services/CoursesService";
 import TasksService from "../services/TasksService";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../services/AuthService";
 const Excercise = (props) => {
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
@@ -15,8 +16,16 @@ const Excercise = (props) => {
     const [wrong, setWrong] = useState(false);
     const [Message, setMessage] = useState("");
 
+    const [user, setUser] = useState(null);
+
     useEffect(() => {
         const dataFetch = async () => {
+
+            AuthService.profile()
+                .then((response) => {
+                    console.log(response)
+                    setUser(response.data);
+                })
 
             CoursesService.course(searchParams.get("idKursu"))
                 .then((response) => {
@@ -150,8 +159,12 @@ const Excercise = (props) => {
                                 <div>Cos poszlo nir tak</div>
                             }
                         <button className="m-2 my-3 p-2 btn btn-trinary shadow-sm" onClick={checkAnswer}>Sprawdź</button>
+                        {  user !== null && user.role === 'ADMIN' &&
+                            <>
                         <Link to={'/EdytujZadanie?taskId='+tasks[content].id+"&courseId="+searchParams.get("idKursu")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Edytuj zadanie</Link>
                         <button className="m-1 mx-1 btn btn-trinary shadow-sm" onClick={()=> TasksService.deleteTask(tasks[content].id, searchParams.get("idKursu"))}>Usuń zadanie</button>
+                            </>
+                        }
                     </div>
                 </div>
             </div>
