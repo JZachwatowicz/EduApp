@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: cupofraccoons/eduapp-front:1.4
+          image: cupofraccoons/eduapp-front:1.5
 
 ---
 # backend
@@ -47,7 +47,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: cupofraccoons/eduapp-back:1.4
+          image: cupofraccoons/eduapp-back:1.5
           ports:
             - containerPort: 8080
           env:
