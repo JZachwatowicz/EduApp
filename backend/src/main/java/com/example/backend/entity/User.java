@@ -31,6 +31,7 @@ public class User {
     @Size(min = 3, message = "Hasło musi mieć conajmniej {min} znaki")
     private String password;
 
-    @Column(columnDefinition = "String default 'USER'", updatable = false)
+    // To zmienione bo z mysql, a syntax był z mariadb
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'USER' NOT NULL", updatable = false)
     private String role;
 }

@@ -5,6 +5,10 @@ services:
     environment:
       - MYSQL_DATABASE=eduapp_db
       - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     container_name: eduapp-db
     ports:
       - "3306:3306"
@@ -18,7 +22,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - eduapp-db
+      eduapp-db:
+        condition: service_healthy
     networks:
       - backend
   front:
