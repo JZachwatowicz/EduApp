@@ -69,8 +69,8 @@ const Navigation = (props) => {
                         <button className="m-1 mx-1 btn btn-trinary shadow-sm" onClick={()=> AuthService.logout()}>Wyloguj</button>
                     }
                     <button className="btn-transparent" onClick={handleIncrese}><img className="visible" src={contrast} width={30} height={30} class="m-2"/></button>
-                    <button className="btn-transparent" onClick={handleIncrese}><img className="visible"src={fontBigger} width={30} height={30} class="m-2"/></button>
-                    <button className="btn-transparent" onClick={handleDescrese}><img className="visible"src={fontSmaller} width={30} height={30} class="m-2"/></button>
+                    <button className="btn-transparent" onClick={handleIncrese}><img className="visible" src={fontBigger} width={30} height={30} class="m-2"/></button>
+                    <button className="btn-transparent" onClick={handleDescrese}><img className="visible" src={fontSmaller} width={30} height={30} class="m-2"/></button>
                 </span>
             </div>
             <BreadcrumbsItem to='/'>Strona główna</BreadcrumbsItem>

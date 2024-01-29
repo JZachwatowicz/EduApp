@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-import java.util.Set;
-
 @Entity
 @Getter
 @Setter
@@ -23,4 +20,6 @@ public class Subject {
     @Column(nullable=false)
     private String name;
 
+    /*@OneToMany(mappedBy="subject")
+    private Set<Course> courses;*/
 }

@@ -18,4 +18,6 @@ public interface UserService {
     public User findByEmail(String email);
 
     public void deleteByLogin(String login);
+
+    public boolean isAdmin(String login);
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -32,6 +31,22 @@ public class CourseServiceImpl implements CourseService{
                 .map(courseMapper::mapCourseToCourseDto).collect(Collectors.toList());
     }
 
+    public Course getOneCourse(Long id){
+        return courseRepository.findCourseById(id);
+    }
+
+    @Override
+    public List<CourseDto> getCourseByName(String name) {
+        return (List<CourseDto>) courseRepository.findByName(name)
+                .stream()
+                .map(courseMapper::mapCourseToCourseDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean existByName(String name) {
+        return courseRepository.existsByName(name);
+    }
+
     @Override
     public Boolean courseExists(Long id) {
         return courseRepository.existsById(id);
@@ -41,6 +56,16 @@ public class CourseServiceImpl implements CourseService{
     public List<CourseDto> getAllCoursesSorted() {
         return (List<CourseDto>)courseRepository.findByOrderByNameAsc().stream()
                 .map(courseMapper::mapCourseToCourseDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void save(Course course) {
+        courseRepository.save(course);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        courseRepository.deleteById(id);
     }
 
 }

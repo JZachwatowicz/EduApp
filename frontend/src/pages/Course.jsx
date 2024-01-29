@@ -6,6 +6,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import {BreadcrumbsItem} from "react-breadcrumbs-dynamic";
 import CoursesService from "../services/CoursesService";
 import TasksService from "../services/TasksService";
+import AuthService from "../services/AuthService";
 const Course = () => {
     const percentage = 66;
     const [tasks, setTasks] = useState([]);
@@ -93,6 +94,9 @@ const Course = () => {
                             <Link to={'/Zadanie?idKursu='+searchParams.get("Id")+'&idZadanie=0'} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm ${tasks.length === 0 ? 'disabled': ''}`} >Rozpocznij kurs</Link>
                             <button className="m-2 my-3 p-3 btn btn-trinary shadow-sm disabled" >Zakończ kurs</button>
                             <button className="m-2 my-3 p-3 btn btn-trinary shadow-sm disabled" >Następne ćwiczenie</button>
+                            <Link to={'/DodajZadanie?courseId='+searchParams.get("Id")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Dodaj zadanie</Link>
+                            <Link to={'/EdytujKurs?courseId='+searchParams.get("Id")} className={`m-2 my-3 p-3 btn btn-trinary shadow-sm `} >Edytuj kurs</Link>
+                            <button className="m-1 mx-1 btn btn-trinary shadow-sm" onClick={()=> CoursesService.deleteCourse(searchParams.get("Id"))}>Usuń kurs</button>
 
                         </div>
                     </div>

@@ -1,7 +1,6 @@
 package com.example.backend.services;
 
 import com.example.backend.entity.Task;
-import com.example.backend.repository.CourseRepository;
 import com.example.backend.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,8 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public Task findTaskById(Long Id) {
-        return null;
+    public Task findTaskById(Long id) {
+        return taskRepository.findTasksById(id);
     }
 
     @Override
@@ -34,5 +33,15 @@ public class TaskServiceImpl implements TaskService{
         }
 
 
+    }
+
+    @Override
+    public void save(Task task) {
+        taskRepository.save(task);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        taskRepository.deleteById(id);
     }
 }
